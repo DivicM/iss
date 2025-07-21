@@ -3,6 +3,7 @@ let userLat = 0;
 let userLon = 0;
 let issLat = 0;
 let issLon = 0;
+let issAlt=0;
 
 async function updateCoordinates() {
   try {
@@ -15,16 +16,21 @@ async function updateCoordinates() {
     userLon = data.user_lon;
     issLat = data.iss_lat;
     issLon = data.iss_lon;
+    issAlt=data.iss_alt;
 
     // Ažuriraj HTML (koristi zasebne varijable)
     const userCoordsEl = document.getElementById("user-coords");
     const issCoordsEl = document.getElementById("iss-coords");
+    const issAltEl = document.getElementById("iss-alt");
 
     if (userCoordsEl) {
-      userCoordsEl.textContent = `Lat: ${userLat}, Lon: ${userLon}`;
+      userCoordsEl.textContent = `Latitude: ${userLat}, Longitude: ${userLon}\n`;
     }
     if (issCoordsEl) {
-      issCoordsEl.textContent = `Lat: ${issLat}, Lon: ${issLon}`;
+      issCoordsEl.textContent = `Latitude: ${issLat}, Longitude: ${issLon}\n`;
+    }
+    if(issAltEl){
+        issAltEl.textContent=`Altitude: ${issAlt}\n`
     }
 
   } catch (error) {

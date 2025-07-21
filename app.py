@@ -26,39 +26,29 @@ def get_iss_cords():
         url = 'https://api.wheretheiss.at/v1/satellites/25544'
         response = urllib.request.urlopen(url, timeout=2)
         result = json.loads(response.read())
-        return float(result["latitude"]), float(result["longitude"])
+        return float(result["latitude"]), float(result["longitude"]), float(result["altitude"])
     except Exception as e:
         print(f"Error fetching ISS data: {e}")
         return 0.0, 0.0  # Default vrijednosti
-
-def get_iss_altitude():
-    try:
-        url = 'https://api.wheretheiss.at/v1/satellites/25544'
-        response = urllib.request.urlopen(url, timeout=2)
-        result = json.loads(response.read())
-        return float(result["altitude"])
-    except Exception as e:
-        print(f"Error fetching ISS data: {e}")
-        return 0.0, 0.0  # Default vrijednosti
-
 
 
 @app.route('/api/coordinates')
 def get_coordinates():
     user_lat, user_lon = get_cords()
-    iss_lat, iss_lon = get_iss_cords()
+    iss_lat, iss_lon, iss_alt = get_iss_cords()
     return jsonify({
         'user_lat': user_lat,
         'user_lon': user_lon,
         'iss_lat': iss_lat,
-        'iss_lon': iss_lon
+        'iss_lon': iss_lon,
+        'iss_alt': iss_alt
     })
 
 @app.route('/')
 def index():
     astronaut_num, astronauts=get_astronauts()
     user_lat, user_lon=get_cords()
-    iss_lat, iss_lon=get_iss_cords()
+    iss_lat, iss_lon, iss_alt=get_iss_cords()
     return render_template(
         "index.html",
         astronaut_num=astronaut_num,
@@ -66,7 +56,8 @@ def index():
         user_lat=user_lat,
         user_lon=user_lon,
         iss_lat=iss_lat,
-        iss_lon=iss_lon
+        iss_lon=iss_lon,
+        iss_alt=iss_alt
     )
 
 if __name__=="__main__":
