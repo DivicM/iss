@@ -5,6 +5,7 @@ let issLat = 0;
 let issLon = 0;
 let issAlt = 0;
 let issVel = 0;
+let distance=0;
 
 // Varijable za mapu
 let map;
@@ -67,17 +68,20 @@ async function updateCoordinates() {
     issLon = data.iss_lon;
     issAlt = data.iss_alt;
     issVel = data.iss_vel;
+    distance=data.distance;
 
     // Ažuriraj HTML
     const userCoordsEl = document.getElementById("user-coords");
     const issCoordsEl = document.getElementById("iss-coords");
     const issAltEl = document.getElementById("iss-alt");
     const issVelEl = document.getElementById("iss-vel");
+    const distanceEl=document.getElementById("distance")
 
     if (userCoordsEl) userCoordsEl.textContent = `Lat: ${userLat.toFixed(4)}, Lon: ${userLon.toFixed(4)}`;
     if (issCoordsEl) issCoordsEl.textContent = `Lat: ${issLat.toFixed(4)}, Lon: ${issLon.toFixed(4)}`;
     if (issAltEl) issAltEl.textContent = `Visina: ${issAlt.toFixed(2)} km`;
     if (issVelEl) issVelEl.textContent = `Brzina: ${issVel.toFixed(2)} km/h`;
+    if(distanceEl) distanceEl.textContent=`<u>Udaljenost od ISS-a</u>: ${distance.toFixed(2)} km`;
 
     // Ažuriraj mapu
     if (map) {

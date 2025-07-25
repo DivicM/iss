@@ -4,6 +4,7 @@ import time
 import urllib.request
 import webbrowser
 import requests
+from geopy import distance
 
 
 api_url='http://api.open-notify.org/astros.json'
