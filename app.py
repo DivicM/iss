@@ -34,10 +34,10 @@ def get_iss_cords():
     
 def user_iss_distance():
     user_lat, user_lon=get_user_cords()
-    iss_lat, iss_lon,_,_= get_iss_cords()
+    issData= get_iss_cords()
 
     cord_user=(user_lat, user_lon)
-    cord_iss=(iss_lat, iss_lon)
+    cord_iss=(issData[0], issData[1])
     dist=distance.distance(cord_user, cord_iss)
     return float(dist.km)
 
@@ -45,12 +45,9 @@ def user_iss_distance():
 
 @app.route('/api/coordinates')
 def get_coordinates():
-    user_lat, user_lon = get_user_cords()
     iss_lat, iss_lon, iss_alt, iss_vel= get_iss_cords()
     distance=user_iss_distance()
     return jsonify({
-        'user_lat': user_lat,
-        'user_lon': user_lon,
         'iss_lat': iss_lat,
         'iss_lon': iss_lon,
         'iss_alt': iss_alt,

@@ -62,8 +62,8 @@ async function updateCoordinates() {
     const data = await response.json();
 
     // Ažuriraj koordinate
-    userLat = data.user_lat;
-    userLon = data.user_lon;
+    userLat = parseFloat(document.getElementById("usr_lat").textContent);
+    userLon = parseFloat(document.getElementById("usr_lon").textContent);
     issLat = data.iss_lat;
     issLon = data.iss_lon;
     issAlt = data.iss_alt;
@@ -71,17 +71,15 @@ async function updateCoordinates() {
     distance=data.distance;
 
     // Ažuriraj HTML
-    const userCoordsEl = document.getElementById("user-coords");
     const issCoordsEl = document.getElementById("iss-coords");
     const issAltEl = document.getElementById("iss-alt");
     const issVelEl = document.getElementById("iss-vel");
     const distanceEl=document.getElementById("distance")
 
-    if (userCoordsEl) userCoordsEl.textContent = `Lat: ${userLat.toFixed(4)}, Lon: ${userLon.toFixed(4)}`;
     if (issCoordsEl) issCoordsEl.textContent = `Lat: ${issLat.toFixed(4)}, Lon: ${issLon.toFixed(4)}`;
     if (issAltEl) issAltEl.textContent = `Visina: ${issAlt.toFixed(2)} km`;
     if (issVelEl) issVelEl.textContent = `Brzina: ${issVel.toFixed(2)} km/h`;
-    if(distanceEl) distanceEl.textContent=`<u>Udaljenost od ISS-a</u>: ${distance.toFixed(2)} km`;
+    if(distanceEl) distanceEl.textContent=`Udaljenost od ISS-a: ${distance.toFixed(2)} km`;
 
     // Ažuriraj mapu
     if (map) {
@@ -100,9 +98,16 @@ async function updateCoordinates() {
   }
 }
 
+async function startUpdating() {
+  while(true){
+    await updateCoordinates();
+    await new Promise(resolve => setTimeout(resolve, 2000));
+  }
+}
+
 // Pokreni aplikaciju
 document.addEventListener("DOMContentLoaded", () => {
   initMap();
   updateCoordinates();
-  setInterval(updateCoordinates, 2000); // Povećaj interval na 5 sekundi
+  startUpdating();
 });

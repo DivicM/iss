@@ -3,8 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <title>Pozicija MSS</title>
-    <link rel="stylesheet" href="static/style.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="static/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
   </head>
   <body>
     <h1>International Space Station Tracker</h1>
@@ -13,21 +16,22 @@
       <h2>Opći Podatci</h2>
       <p>
         <strong>Tvoja lokacija:</strong>
-        <span id="user-coords">Loading...</span>
-        <span id="user-lat"></span><span id="user-lon"></span>
+        Lat: <span id="usr_lat">{{ user_lat }}</span>, 
+        Lon: <span id="usr_lon">{{ user_lon }}</span>
       </p>
+
       <p>
         <strong>ISS Lokacija:</strong>
         <span id="iss-coords">Loading...</span>
         <span id="iss-lat"></span><span id="iss-lon"></span>
-    </p>
-    <p>
+      </p>
+      <p>
         <strong>ISS Podatci:</strong>
         <span id="iss-coords"></span>
         <span id="iss-alt"></span>
         <span id="iss-vel"></span>
         <span id="distance"></span>
-    </p>
+      </p>
     </div>
 
     <div class="astronauts-list">
