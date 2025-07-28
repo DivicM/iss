@@ -97,7 +97,6 @@ async function updateCoordinates() {
     console.error("Fetch error:", error);
   }
 }
-
 async function startUpdating() {
   while(true){
     await updateCoordinates();

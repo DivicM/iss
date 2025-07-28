@@ -42,7 +42,15 @@
         {% endfor %}
       </ul>
     </div>
-
+    <div id="div_unos">
+      <form action="/reset_location" method="POST">
+        <button id="btn_pocetna" type="submit">Tvoja lokacija</button>
+      </form>
+    <form action="/set_location" method="POST">
+      <input type="text" name="city" placeholder="Unesi grad" id="input_grad">
+      <button type="submit" id="btn_grad">Postavi lokaciju</button>
+    </form>
+    </div>
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
