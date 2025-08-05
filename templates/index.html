@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
+  
   </head>
   <body>
     <h1>International Space Station Tracker</h1>
@@ -44,16 +45,34 @@
     </div>
     <div id="div_unos">
       <form action="/reset_location" method="POST">
-        <button id="btn_pocetna" type="submit">Tvoja lokacija</button>
+        <button id="btn_pocetna" type="submit">Moja lokacija</button>
       </form>
     <form action="/set_location" method="POST">
       <input type="text" name="city" placeholder="Unesi grad" id="input_grad">
       <button type="submit" id="btn_grad">Postavi lokaciju</button>
     </form>
     </div>
-    <div id="map"></div>
+    <div class="passes">
+      <h2>Nadolazeći preleti ISS-a</h2>
+      {% if passes %}
+        <ul>
+          {% for p in passes %}
+            <li>Vrijeme: {{ p.risetime }} — Trajanje: {{ p.duration }} sekundi</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p><em>Trenutno nije moguće dohvatiti podatke o preletima.</em></p>
+      {% endif %}
 
+    </div>
+
+    <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@joergdietrich/leaflet.terminator@1.1.0/dist/leaflet.terminator.min.js"></script>
     <script src="{{ url_for('static', filename='iss_updater.js') }}"></script>
+
+    <button id="center_iss">Centriraj na ISS</button>
+    <button id="center_user">Centriraj moju lokaciju</button>
+
   </body>
 </html>

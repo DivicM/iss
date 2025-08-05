@@ -1,3 +1,5 @@
+
+
 // Globalne varijable za koordinate
 let userLat = 0;
 let userLon = 0;
@@ -109,4 +111,17 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap();
   updateCoordinates();
   startUpdating();
+  document.getElementById("center_iss").addEventListener("click", ()=>{
+  if(issMarker){
+    const issPos=issMarker.getLatLng();
+    map.setView(issPos, 4);
+  }
+  })
+  document.getElementById("center_user").addEventListener("click",  () => {
+    if(userMarker){
+      const userPos=userMarker.getLatLng();
+      map.setView(userPos, 4);
+    }
+  })
+
 });
