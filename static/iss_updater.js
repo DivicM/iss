@@ -1,5 +1,4 @@
 
-
 // Globalne varijable za koordinate
 let userLat = 0;
 let userLon = 0;
@@ -15,6 +14,7 @@ let userMarker;
 let issMarker;
 let connectionLine;
 let userZoomed = false; // Dodajte ovu liniju
+let terminatorLayer;
 
 function initMap() {
   map = L.map("map").setView([30, -30], 2);
@@ -22,6 +22,11 @@ function initMap() {
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
+
+    // Dodaj terminator (noćna sjena)
+  terminatorLayer = L.terminator();
+  terminatorLayer.addTo(map);
+
 
   // Marker za korisnika
   userMarker = L.marker([0, 0], {
@@ -93,6 +98,12 @@ async function updateCoordinates() {
       if (!userZoomed && userLat && userLon && issLat && issLon) {
         const bounds = L.latLngBounds([userLat, userLon], [issLat, issLon]);
         map.flyToBounds(bounds, { padding: [50, 50], duration: 1 });
+      }
+
+      if (terminatorLayer) {
+        map.removeLayer(terminatorLayer);
+        terminatorLayer = L.terminator();
+        terminatorLayer.addTo(map);
       }
     }
   } catch (error) {
