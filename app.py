@@ -59,15 +59,13 @@ def geocode_city(city_name):
         pass
     return 0.0, 0.0 
 
-def get_iss_passes(lat, lon, alt=0, days=15, min_visibility=10):
+def get_iss_passes(lat, lon, alt=300, days=15, min_visibility=10):
     try:
-        api_key = "API_KEY"
+        api_key = os.getenv("N2YO_API_KEY")
         url = f"https://api.n2yo.com/rest/v1/satellite/visualpasses/25544/{lat}/{lon}/{alt}/{days}/{min_visibility}?apiKey={api_key}"
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         data = response.json()
-
-        print(url)
         # Ako nema preleta, odmah vrati praznu listu
         if data.get('passes', 0) == 0:
             print("Nema nadolazećih preleta za ovu lokaciju.")
@@ -91,7 +89,6 @@ def get_iss_passes(lat, lon, alt=0, days=15, min_visibility=10):
 @app.route('/api/coordinates')
 def get_coordinates():
     issData=get_iss_cords()
-    #iss_lat, iss_lon, iss_alt, iss_vel= get_iss_cords()
     distance=user_iss_distance()
     return jsonify({
         'iss_lat': issData[0],
@@ -113,7 +110,6 @@ def index():
     astronaut_num, astronauts=get_astronauts()
     user_lat, user_lon=get_user_cords()
     issData=get_iss_cords()
-    #iss_lat, iss_lon, iss_alt, iss_vel=get_iss_cords()
     distance=user_iss_distance()
     passes=get_iss_passes(user_lat, user_lon)
     return render_template(

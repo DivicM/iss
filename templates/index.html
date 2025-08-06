@@ -2,13 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Pozicija MSS</title>
+    <title>ISS Tracker</title>
     <link rel="stylesheet" href="static/style.css" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-  
   </head>
   <body>
     <h1>International Space Station Tracker</h1>
@@ -68,9 +67,9 @@
 
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@joergdietrich/leaflet.terminator@1.1.0/dist/leaflet.terminator.min.js"></script>
+    <script src="https://unpkg.com/leaflet"></script>
+    <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
     <script src="{{ url_for('static', filename='iss_updater.js') }}"></script>
-
     <button id="center_iss">Centriraj na ISS</button>
     <button id="center_user">Centriraj moju lokaciju</button>
 

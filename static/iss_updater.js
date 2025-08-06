@@ -19,9 +19,9 @@ let terminatorLayer;
 function initMap() {
   map = L.map("map").setView([30, -30], 2);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+}).addTo(map);
 
     // Dodaj terminator (noćna sjena)
   terminatorLayer = L.terminator();
@@ -32,7 +32,7 @@ function initMap() {
   userMarker = L.marker([0, 0], {
     icon: L.divIcon({
       className: "user-marker",
-      html: '<div style="color:blue;font-size:24px">📍</div>',
+      html: '<div>📍</div>',
       iconSize: [30, 30],
     }),
   }).addTo(map).bindPopup("Vaša lokacija");
@@ -98,12 +98,6 @@ async function updateCoordinates() {
       if (!userZoomed && userLat && userLon && issLat && issLon) {
         const bounds = L.latLngBounds([userLat, userLon], [issLat, issLon]);
         map.flyToBounds(bounds, { padding: [50, 50], duration: 1 });
-      }
-
-      if (terminatorLayer) {
-        map.removeLayer(terminatorLayer);
-        terminatorLayer = L.terminator();
-        terminatorLayer.addTo(map);
       }
     }
   } catch (error) {
