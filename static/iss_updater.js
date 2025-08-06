@@ -13,7 +13,7 @@ let map;
 let userMarker;
 let issMarker;
 let connectionLine;
-let userZoomed = false; // Dodajte ovu liniju
+let userZoomed = false; 
 let terminatorLayer;
 
 function initMap() {
@@ -23,7 +23,6 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
 }).addTo(map);
 
-    // Dodaj terminator (noćna sjena)
   terminatorLayer = L.terminator();
   terminatorLayer.addTo(map);
 
@@ -56,7 +55,7 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
     weight: 2,
   }).addTo(map);
 
-  // Dodajte event listenere nakon inicijalizacije mape
+  
   map.on('zoomstart', function() {
     userZoomed = true;
   });
