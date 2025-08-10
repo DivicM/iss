@@ -8,7 +8,6 @@ let issAlt = 0;
 let issVel = 0;
 let distance=0;
 
-// Varijable za mapu
 let map;
 let userMarker;
 let issMarker;
@@ -26,8 +25,6 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
   terminatorLayer = L.terminator();
   terminatorLayer.addTo(map);
 
-
-  // Marker za korisnika
   userMarker = L.marker([0, 0], {
     icon: L.divIcon({
       className: "user-marker",
@@ -36,7 +33,6 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
     }),
   }).addTo(map).bindPopup("Vaša lokacija");
 
-  // Marker za ISS
   const issIcon = L.icon({
     iconUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg",
     iconSize: [50, 32],
@@ -48,7 +44,6 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
     rotationAngle: 0,
   }).addTo(map).bindPopup("Međunarodna svemirska stanica");
 
-  // Linija koja povezuje
   connectionLine = L.polyline([], {
     color: "red",
     dashArray: "10, 10",
@@ -93,7 +88,6 @@ async function updateCoordinates() {
       issMarker.setLatLng([issLat, issLon]);
       connectionLine.setLatLngs([[userLat, userLon], [issLat, issLon]]);
 
-      // Centriraj samo ako korisnik nije zumirao
       if (!userZoomed && userLat && userLon && issLat && issLon) {
         const bounds = L.latLngBounds([userLat, userLon], [issLat, issLon]);
         map.flyToBounds(bounds, { padding: [50, 50], duration: 1 });
@@ -110,7 +104,6 @@ async function startUpdating() {
   }
 }
 
-// Pokreni aplikaciju
 document.addEventListener("DOMContentLoaded", () => {
   initMap();
   updateCoordinates();

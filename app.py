@@ -12,7 +12,7 @@ app.secret_key="tajni_kljuc"
 
 def get_astronauts():
     try:
-        response=requests.get('http://api.open-notify.org/astros.json', timeout=7)
+        response=requests.get('http://api.open-notify.org/astros.json', timeout=15)
         response.raise_for_status()
         data=response.json()
         return data['number'], [person['name'] for person in data['people']]
@@ -28,7 +28,7 @@ def get_user_cords():
         data = response.json()
         return float(data['lat']), float(data['lon'])
     except:
-        return 0.0, 0.0  # Default vrijednosti 
+        return 0.0, 0.0  
 
 def get_iss_cords():
     try:
@@ -66,7 +66,6 @@ def get_iss_passes(lat, lon, alt=300, days=15, min_visibility=10):
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         data = response.json()
-        # Ako nema preleta, odmah vrati praznu listu
         if data.get('passes', 0) == 0:
             print("Nema nadolazećih preleta za ovu lokaciju.")
             return []
