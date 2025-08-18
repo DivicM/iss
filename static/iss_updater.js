@@ -1,5 +1,3 @@
-
-// Globalne varijable za koordinate
 let userLat = 0;
 let userLon = 0;
 let issLat = 0;
@@ -59,7 +57,6 @@ async function updateCoordinates() {
     if (!response.ok) throw new Error("Network error");
     const data = await response.json();
 
-    // Ažuriraj koordinate
     userLat = parseFloat(document.getElementById("usr_lat").textContent);
     userLon = parseFloat(document.getElementById("usr_lon").textContent);
     issLat = data.iss_lat;
@@ -68,7 +65,6 @@ async function updateCoordinates() {
     issVel = data.iss_vel;
     distance=data.distance;
 
-    // Ažuriraj HTML
     const issCoordsEl = document.getElementById("iss-coords");
     const issAltEl = document.getElementById("iss-alt");
     const issVelEl = document.getElementById("iss-vel");
@@ -79,7 +75,6 @@ async function updateCoordinates() {
     if (issVelEl) issVelEl.textContent = `Brzina: ${issVel.toFixed(2)} km/h`;
     if(distanceEl) distanceEl.textContent=`Udaljenost od ISS-a: ${distance.toFixed(2)} km`;
 
-    // Ažuriraj mapu
     if (map) {
       userMarker.setLatLng([userLat, userLon]);
       issMarker.setLatLng([issLat, issLon]);
