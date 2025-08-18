@@ -8,12 +8,11 @@ load_dotenv()
 
 
 app=Flask(__name__)
-app.secret_key="tajni_kljuc" #??????????????????????????????????????????????????????????????????????????????????????????????
+
 
 def get_astronauts():
     try:
-        response=requests.get('http://api.open-notify.org/astros.json', timeout=15)
-        response.raise_for_status()
+        response=requests.get('http://api.open-notify.org/astros.json', timeout=500)
         data=response.json()
         return data['number'], [person['name'] for person in data['people']]
     except:
@@ -59,12 +58,11 @@ def geocode_city(city_name):
         pass
     return 0.0, 0.0 
 
-def get_iss_passes(lat, lon, alt=300, days=15, min_visibility=10):
+def get_iss_passes(lat, lon, alt=550, days=10, min_visibility=100):
     try:
         api_key = os.getenv("N2YO_API_KEY")
         url = f"https://api.n2yo.com/rest/v1/satellite/visualpasses/25544/{lat}/{lon}/{alt}/{days}/{min_visibility}?apiKey={api_key}"
         response = requests.get(url, timeout=10)
-        response.raise_for_status()
         data = response.json()
         if data.get('passes', 0) == 0:
             print("Nema nadolazećih preleta za ovu lokaciju.")

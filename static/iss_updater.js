@@ -19,7 +19,6 @@ function initMap() {
   map = L.map("map").setView([30, -30], 2);
 
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
 }).addTo(map);
 
   terminatorLayer = L.terminator();
@@ -35,13 +34,11 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
 
   const issIcon = L.icon({
     iconUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg",
-    iconSize: [50, 32],
-    iconAnchor: [25, 16],
+    iconSize: [50, 32]
   });
   
   issMarker = L.marker([0, 0], {
-    icon: issIcon,
-    rotationAngle: 0,
+    icon: issIcon
   }).addTo(map).bindPopup("Međunarodna svemirska stanica");
 
   connectionLine = L.polyline([], {
