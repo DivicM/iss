@@ -8,7 +8,7 @@ load_dotenv()
 
 
 app=Flask(__name__)
-
+app.secret_key="tajni_kljuc"
 
 def get_astronauts():
     try:
