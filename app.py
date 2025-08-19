@@ -33,9 +33,9 @@ def get_iss_cords():
     try:
         response=requests.get('https://api.wheretheiss.at/v1/satellites/25544', timeout=2)
         data=response.json()
-        return float(data["latitude"]), float(data["longitude"]), float(data["altitude"]), float(data["velocity"])
+        return float(data["latitude"]), float(data["longitude"]), float(data["altitude"]), float(data["velocity"]), float(data["footprint"])
     except:
-        return 0.0, 0.0 , 0.0, 0.0
+        return 0.0, 0.0 , 0.0, 0.0, 0.0
     
 def user_iss_distance():
     user_lat, user_lon=get_user_cords()
@@ -92,7 +92,8 @@ def get_coordinates():
         'iss_lon': issData[1],
         'iss_alt': issData[2],
         'iss_vel': issData[3],
-        'distance': distance
+        'distance': distance,
+        'footprint':issData[4]
     })
 
 @app.route('/reset_location', methods=["POST"])

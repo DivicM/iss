@@ -4,20 +4,24 @@ let issLat = 0;
 let issLon = 0;
 let issAlt = 0;
 let issVel = 0;
-let distance=0;
+let distance = 0;
 
 let map;
 let userMarker;
 let issMarker;
 let connectionLine;
-let userZoomed = false; 
+let userZoomed = false;
 let terminatorLayer;
+let issFootprint;
+let issFootprintradius = 0;
 
 function initMap() {
   map = L.map("map").setView([30, -30], 2);
 
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-}).addTo(map);
+  L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    {}
+  ).addTo(map);
 
   terminatorLayer = L.terminator();
   terminatorLayer.addTo(map);
@@ -25,19 +29,31 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
   userMarker = L.marker([0, 0], {
     icon: L.divIcon({
       className: "user-marker",
-      html: '<div>📍</div>',
+      html: "<div>📍</div>",
       iconSize: [30, 30],
     }),
-  }).addTo(map).bindPopup("Vaša lokacija");
+  })
+    .addTo(map)
+    .bindPopup("Vaša lokacija");
 
   const issIcon = L.icon({
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg",
-    iconSize: [50, 32]
+    iconUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg",
+    iconSize: [50, 32],
   });
-  
+
+  issFootprint = L.circle([0, 0], {
+    radius: 0,
+    color: "blue",
+    fillColor: "blue",
+    fillOpacity: 0.1,
+  }).addTo(map);
+
   issMarker = L.marker([0, 0], {
-    icon: issIcon
-  }).addTo(map).bindPopup("Međunarodna svemirska stanica");
+    icon: issIcon,
+  })
+    .addTo(map)
+    .bindPopup("Međunarodna svemirska stanica");
 
   connectionLine = L.polyline([], {
     color: "red",
@@ -45,8 +61,7 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
     weight: 2,
   }).addTo(map);
 
-  
-  map.on('zoomstart', function() {
+  map.on("zoomstart", function () {
     userZoomed = true;
   });
 }
@@ -63,22 +78,32 @@ async function updateCoordinates() {
     issLon = data.iss_lon;
     issAlt = data.iss_alt;
     issVel = data.iss_vel;
-    distance=data.distance;
+    distance = data.distance;
+    issFootprintradius = data.footprint;
 
     const issCoordsEl = document.getElementById("iss-coords");
     const issAltEl = document.getElementById("iss-alt");
     const issVelEl = document.getElementById("iss-vel");
-    const distanceEl=document.getElementById("distance")
+    const distanceEl = document.getElementById("distance");
 
-    if (issCoordsEl) issCoordsEl.textContent = `Lat: ${issLat.toFixed(4)}, Lon: ${issLon.toFixed(4)}`;
+    if (issCoordsEl)
+      issCoordsEl.textContent = `Lat: ${issLat.toFixed(
+        4
+      )}, Lon: ${issLon.toFixed(4)}`;
     if (issAltEl) issAltEl.textContent = `Visina: ${issAlt.toFixed(2)} km`;
     if (issVelEl) issVelEl.textContent = `Brzina: ${issVel.toFixed(2)} km/h`;
-    if(distanceEl) distanceEl.textContent=`Udaljenost od ISS-a: ${distance.toFixed(2)} km`;
+    if (distanceEl)
+      distanceEl.textContent = `Udaljenost od ISS-a: ${distance.toFixed(2)} km`;
 
     if (map) {
       userMarker.setLatLng([userLat, userLon]);
       issMarker.setLatLng([issLat, issLon]);
-      connectionLine.setLatLngs([[userLat, userLon], [issLat, issLon]]);
+      connectionLine.setLatLngs([
+        [userLat, userLon],
+        [issLat, issLon],
+      ]);
+      issFootprint.setLatLng([issLat, issLon]);
+      issFootprint.setRadius(issFootprintradius * 1000);
 
       if (!userZoomed && userLat && userLon && issLat && issLon) {
         const bounds = L.latLngBounds([userLat, userLon], [issLat, issLon]);
@@ -90,9 +115,9 @@ async function updateCoordinates() {
   }
 }
 async function startUpdating() {
-  while(true){
+  while (true) {
     await updateCoordinates();
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
 }
 
@@ -100,17 +125,16 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap();
   updateCoordinates();
   startUpdating();
-  document.getElementById("center_iss").addEventListener("click", ()=>{
-  if(issMarker){
-    const issPos=issMarker.getLatLng();
-    map.setView(issPos, 4);
-  }
-  })
-  document.getElementById("center_user").addEventListener("click",  () => {
-    if(userMarker){
-      const userPos=userMarker.getLatLng();
+  document.getElementById("center_iss").addEventListener("click", () => {
+    if (issMarker) {
+      const issPos = issMarker.getLatLng();
+      map.setView(issPos, 4);
+    }
+  });
+  document.getElementById("center_user").addEventListener("click", () => {
+    if (userMarker) {
+      const userPos = userMarker.getLatLng();
       map.setView(userPos, 4);
     }
-  })
-
+  });
 });
