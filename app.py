@@ -58,7 +58,7 @@ def geocode_city(city_name):
         pass
     return 0.0, 0.0 
 
-def get_iss_passes(lat, lon, alt=550, days=10, min_visibility=100):
+def get_iss_passes(lat, lon, alt=550, days=5, min_visibility=100):
     try:
         api_key = os.getenv("N2YO_API_KEY")
         url = f"https://api.n2yo.com/rest/v1/satellite/visualpasses/25544/{lat}/{lon}/{alt}/{days}/{min_visibility}?apiKey={api_key}"
