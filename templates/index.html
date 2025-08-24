@@ -10,67 +10,91 @@
     />
   </head>
   <body>
-    <h1>International Space Station Tracker</h1>
-
-    <div class="coords-container">
-      <h2>Opći Podatci</h2>
+    <header id="header">
       <p>
-        <strong>Tvoja lokacija:</strong>
-        Lat: <span id="usr_lat">{{ user_lat }}</span>, 
-        Lon: <span id="usr_lon">{{ user_lon }}</span>
+      <h1>International Space Station Tracker</h1>
       </p>
+    </header>
+    <nav id="navBar">
+      <div id="coords-container">
+        <h2>Opći Podatci</h2>
+         <div id="lokacija_korisnik">
+            <p>
+              <strong>Tvoja lokacija:</strong>
+              Lat: <span id="usr_lat">{{ user_lat }}</span>,
+              Lon: <span id="usr_lon">{{ user_lon }}</span>
+            </p>
+         </div>
+         <p></p>
+         <div id="iss_lokacija">
+            <p>
+              <strong>ISS Lokacija:</strong>
+              <span id="iss-coords">Loading...</span>
+              <span id="iss-lat"></span><span id="iss-lon"></span>
+            </p>
 
-      <p>
-        <strong>ISS Lokacija:</strong>
-        <span id="iss-coords">Loading...</span>
-        <span id="iss-lat"></span><span id="iss-lon"></span>
-      </p>
-      <p>
-        <strong>ISS Podatci:</strong>
-        <span id="iss-coords"></span>
-        <span id="iss-alt"></span>
-        <span id="iss-vel"></span>
-        <span id="distance"></span>
-      </p>
-    </div>
+         </div>
+         <p> </p>
+         <div id="iss_podaci">
+          <p>
+            <strong>ISS Podatci:</strong>
+            <span id="iss-coords"></span>
+            <span id="iss-alt"></span>
+            <span id="iss-vel"></span>
+            <span id="distance"></span>
+          </p>
+         </div>
+      </div>
+    </nav>
 
-    <div class="astronauts-list">
-      <h2>Astronauti u svemiru: {{ astronaut_num }}</h2>
-      <ul>
-        {% for astronaut in astronauts %}
-        <li>{{ astronaut }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div id="div_unos">
-      <form action="/reset_location" method="POST">
-        <button id="btn_pocetna" type="submit">Moja lokacija</button>
-      </form>
-    <form action="/set_location" method="POST">
-      <input type="text" name="city" placeholder="Unesi grad" id="input_grad">
-      <button type="submit" id="btn_grad">Postavi lokaciju</button>
-    </form>
-    </div>
-    <div class="passes">
-      <h2>Nadolazeći preleti ISS-a</h2>
-      {% if passes %}
+    <main id="main">
+      <div id="astronauts-list">
+        <h2>Astronauti u svemiru: {{ astronaut_num }}</h2>
         <ul>
-          {% for p in passes %}
-            <li>Vrijeme: {{ p.risetime }} — Trajanje: {{ p.duration }} sekundi</li>
+          {% for astronaut in astronauts %}
+          <li>{{ astronaut }}</li>
           {% endfor %}
         </ul>
-      {% else %}
+      </div>
+      <div id="passes">
+        <h2>Nadolazeći preleti ISS-a</h2>
+        {% if passes %}
+        <ul>
+          {% for p in passes %}
+          <li>
+            Vrijeme: {{ p.risetime }} — Trajanje: {{ p.duration }} sekundi
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
         <p><em>Trenutno nije moguće dohvatiti podatke o preletima.</em></p>
-      {% endif %}
+        {% endif %}
+      </div>
+      <div id="div_unos">
+        <form action="/reset_location" method="POST">
+        <button id="btn_pocetna" type="submit">Moja lokacija</button>
+        </form>
+        <form action="/set_location" method="POST">
+          <input
+            type="text"
+            name="city"
+            placeholder="Unesi grad"
+            id="input_grad"
+          />
+          <button type="submit" id="btn_grad">Postavi lokaciju</button>
+        </form>
+      </div>
 
-    </div>
-
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
-    <script src="{{ url_for('static', filename='iss_updater.js') }}"></script>
-    <button id="center_iss">Centriraj na ISS</button>
-    <button id="center_user">Centriraj moju lokaciju</button>
-
+      <div id="map">
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
+        <script src="{{ url_for('static', filename='iss_updater.js') }}"></script>
+      </div>
+      <div id="centriranje">
+        <button id="center_iss">Centriraj na ISS</button>
+        <button id="center_user">Centriraj moju lokaciju</button>
+      </div>
+      </main>
+    <footer id="footer">Prirodoslovno Matematički Fakultet Split 2025 - Mate Divić</footer>
   </body>
 </html>

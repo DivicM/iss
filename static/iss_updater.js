@@ -16,7 +16,11 @@ let issFootprint;
 let issFootprintradius = 0;
 
 function initMap() {
-  map = L.map("map").setView([30, -30], 2);
+  map = L.map("map", {
+    scrollWheelZoom: true,
+    zoomSnap: 0.5,
+    zoomDelta: 0.5
+  }).setView([30, -30], 2);
 
   L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
