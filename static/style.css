@@ -156,6 +156,7 @@ button:hover {
     gap: 20px;
 }
 
+
 @media (max-width: 800px) {
     body {
         grid-template-columns: 1fr;     
@@ -166,10 +167,30 @@ button:hover {
             "main"
             "footer";
     }
-    #astronauts-list ul {
-        columns: 1;
+
+    header h1 {
+        font-size: 1.6rem; 
+        text-align: center;
     }
+
+    nav {
+        border-radius: 0; 
+        box-shadow: none; 
+        margin-bottom: 15px;
+    }
+
     #map {
         height: 400px;
     }
+
+    #coords-container {
+        position: static;  
+        width: 100%; 
+        margin-top: 15px;
+    }
+
+    #astronauts-list ul {
+        columns: 1; 
+    }
 }
+
