@@ -100,15 +100,18 @@ button:hover {
     background-color: #f8f9fa;
     color: #1b263b;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-size: 1rem;
 }
 #passes ul {
     list-style-type: none;
     padding-left: 0;
     text-align: center;
+    font-size: inherit;
 }
 
 #passes li {
     margin: 5px 0;
+    font-size: inherit;
 }
 
 #coords-container{
