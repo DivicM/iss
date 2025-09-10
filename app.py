@@ -23,8 +23,8 @@ def get_user_cords():
     if "user_lat" in session and "user_lon" in session:
         return session["user_lat"], session["user_lon"]
     try:
-        
-        response = requests.get(f'http://ip-api.com/json/', timeout=5)
+        ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+        response = requests.get(f'http://ip-api.com/json/{ip}', timeout=5)
         data = response.json()
         return float(data['lat']), float(data['lon'])
     except:
